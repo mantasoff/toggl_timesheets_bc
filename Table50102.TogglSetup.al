@@ -24,7 +24,7 @@ table 50102 "1CF Toggl Setup"
             DataClassification = ToBeClassified;
             Caption = 'Toggl Api Clients Link';
         }
-        field(20; "Days to keep Toggl Entry"; DateFormula)
+        field(30; "Days to keep Toggl Entry"; DateFormula)
         {
             DataClassification = ToBeClassified;
             Caption = 'Period after delete Toggl Entry';
