@@ -31,8 +31,12 @@ table 50102 "1CF Toggl Setup"
             Description = 'DateFormula, e. g. -30D';
 
         }
+        field(40; "Toggl Api Workspace Link"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Toggl Api Workspace Link';
+        }
     }
-
     keys
     {
         key(PK; PrimaryKey)
@@ -40,25 +44,4 @@ table 50102 "1CF Toggl Setup"
             Clustered = true;
         }
     }
-
-    trigger OnInsert()
-    begin
-
-    end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }

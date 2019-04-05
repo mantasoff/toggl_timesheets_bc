@@ -26,7 +26,4 @@ pageextension 50100 "1CF Job Card" extends "Job Card"
             }
         }
     }
-
-    var
-        myInt: Integer;
 }

@@ -181,8 +181,41 @@ codeunit 50100 "1CF Toggle Management"
 
     procedure CreateTogglClient(Job: Record Job)
     var
-        myInt: Integer;
+        TempBlob: Record TempBlob temporary;
+        TogglSetup: Record "1CF Toggl Setup";
+        UserSetup: Record "User Setup";
+        Client: HttpClient;
+        Headers: HttpHeaders;
+        // RequestMessage: HttpRequestMessage;
+        ResponseMessage: HttpResponseMessage;
+        Content: HttpContent;
+        AuthText: text;
+        ResponseText: text;
     begin
+        TogglSetup.Get();
+        TogglSetup.TestField("Toggl Api Clients Link");
+        Client.Post(TogglSetup."Toggl Api Clients Link", Content, ResponseMessage);
+    end;
 
+    procedure GetWorkspaceID(apiKey: Text[250]): Text
+    var
+        myInt: Integer;
+        jsonObject: JsonObject;
+        userSetup: Record "User Setup";
+        jsonText: Text;
+        toggleSetup: Record "1CF Toggl Setup";
+        url: text;
+        jsonArray: JsonArray;
+        jsonToken: JsonToken;
+        idResult: Text;
+    begin
+        url := 'https://www.toggl.com/api/v8/workspaces';
+        jsonText := GetInfoFromToggle(url, apiKey, 'api_token');
+        jsonArray.ReadFrom(jsonText);
+        jsonArray.Get(0, jsonToken);
+        jsonObject := jsonToken.AsObject();
+        jsonObject.Get('id', jsonToken);
+        jsonToken.WriteTo(idResult);
+        exit(idResult);
     end;
 }
