@@ -2,6 +2,7 @@ codeunit 50101 "Delete Old Toggl Entries"
 {
     trigger OnRun()
     begin
+        DeleteOldTogglEntries();
     end;
 
     procedure DeleteOldTogglEntries()
