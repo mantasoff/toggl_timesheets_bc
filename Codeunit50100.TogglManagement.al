@@ -184,16 +184,115 @@ codeunit 50100 "1CF Toggle Management"
         TempBlob: Record TempBlob temporary;
         TogglSetup: Record "1CF Toggl Setup";
         UserSetup: Record "User Setup";
+        TogglClient: Record "1CF Toggl Client";
+        TogglProject: Record "1CF Toggl Project";
+        JobTask: Record "Job Task";
         Client: HttpClient;
         Headers: HttpHeaders;
-        // RequestMessage: HttpRequestMessage;
+        RequestMessage: HttpRequestMessage;
         ResponseMessage: HttpResponseMessage;
         Content: HttpContent;
         AuthText: text;
         ResponseText: text;
+        JsonContent: JsonObject;
+        JsonContent2: JsonObject;
+        JToken: JsonToken;
+        JArray: JsonArray;
+        tempText: Text;
+        TogglClientText: Text;
+        TogglProjectText: Text;
     begin
         TogglSetup.Get();
+        UserSetup.Get(UserId());
         TogglSetup.TestField("Toggl Api Clients Link");
-        Client.Post(TogglSetup."Toggl Api Clients Link", Content, ResponseMessage);
+        TogglSetup.TestField("Toggl Api Projects Link");
+        RequestMessage.Method := Format('POST');
+        RequestMessage.SetRequestUri(TogglSetup."Toggl Api Clients Link");
+
+        RequestMessage.GetHeaders(Headers);
+        AuthText := StrSubstNo('%1:%2', UserSetup."1CF Toggl Api Key", 'api_token');
+        TempBlob.WriteAsText(AuthText, TextEncoding::Windows);
+        Headers.Add('Authorization', StrSubstNo('Basic %1', TempBlob.ToBase64String()));
+        JsonContent2.Add('name', Job."No.");
+        JsonContent2.Add('wid', UserSetup."1CF Workspace ID");
+        JsonContent.Add('client', JsonContent2);
+        Content.GetHeaders(Headers);
+        Headers.Remove('Content-Type');
+        Headers.Add('Content-Type', 'application/json');
+        JsonContent.WriteTo(tempText);
+        Content.WriteFrom(tempText);
+        RequestMessage.Content(Content);
+        Client.Send(RequestMessage, ResponseMessage);
+        if ResponseMessage.HttpStatusCode = 200 then begin
+            Clear(JsonContent);
+            ResponseMessage.Content.ReadAs(ResponseText);
+            JsonContent.ReadFrom(ResponseText);
+            JsonContent.Get('data', JToken);
+            JToken.AsObject().Get('id', JToken);
+            JToken.WriteTo(TogglClientText);
+            if not TogglClient.Get(UserSetup."User ID", TogglClientText) then begin
+                TogglClient.Init();
+                TogglClient.validate(UserID, UserSetup."User ID");
+                TogglClient.Validate(ClientID, TogglClientText);
+                TogglClient.Validate(ClientName, job."No.");
+                TogglClient.Insert(true);
+            end;
+        end
+        else begin
+            Error('Something went wrong:\%1 - %2', ResponseMessage.HttpStatusCode, ResponseMessage.ReasonPhrase);
+        end;
+
+        JobTask.Reset();
+        JobTask.SetRange("Job No.", Job."No.");
+        if JobTask.FindSet() then
+            repeat
+                Clear(RequestMessage);
+                Clear(Headers);
+                Clear(JsonContent2);
+                Clear(JsonContent);
+                Clear(Content);
+                Clear(Client);
+                Clear(ResponseMessage);
+
+                RequestMessage.Method := Format('POST');
+                RequestMessage.SetRequestUri(TogglSetup."Toggl Api Projects Link");
+                RequestMessage.GetHeaders(Headers);
+                AuthText := StrSubstNo('%1:%2', UserSetup."1CF Toggl Api Key", 'api_token');
+                TempBlob.WriteAsText(AuthText, TextEncoding::Windows);
+                Headers.Add('Authorization', StrSubstNo('Basic %1', TempBlob.ToBase64String()));
+
+                JsonContent2.Add('name', JobTask."Job Task No.");
+                JsonContent2.Add('wid', UserSetup."1CF Workspace ID");
+                JsonContent2.Add('cid', TogglClient.ClientID);
+                JsonContent.Add('project', JsonContent2);
+                Content.GetHeaders(Headers);
+                Headers.Remove('Content-Type');
+                Headers.Add('Content-Type', 'application/json');
+                JsonContent.WriteTo(tempText);
+                Content.WriteFrom(tempText);
+                RequestMessage.Content(Content);
+                Client.Send(RequestMessage, ResponseMessage);
+                Clear(TogglProjectText);
+                if ResponseMessage.HttpStatusCode = 200 then begin
+                    Clear(JsonContent);
+                    ResponseMessage.Content.ReadAs(ResponseText);
+                    JsonContent.ReadFrom(ResponseText);
+                    JsonContent.Get('data', JToken);
+                    JToken.AsObject().Get('id', JToken);
+                    JToken.WriteTo(TogglProjectText);
+                    if not TogglProject.Get(UserSetup."User ID", TogglClient.ClientID, TogglProjectText) then begin
+                        TogglProject.Init();
+                        TogglProject.Validate(UserID, UserSetup."User ID");
+                        TogglProject.Validate(ClientID, TogglClient.ClientID);
+                        // TogglProject.Validate(ClientName, TogglClient.ClientName);
+                        TogglProject.Validate(ProjectID, TogglProjectText);
+                        TogglProject.Validate(ProjectName, JobTask."Job Task No.");
+                        TogglProject.Insert(true);
+                    end
+                    else begin
+
+                    end;
+                end;
+            until JobTask.Next() = 0;
     end;
 }

@@ -4,6 +4,7 @@ page 50101 TogglProjectEntries
     ApplicationArea = All;
     UsageCategory = Lists;
     SourceTable = "1CF Toggl Project";
+    Caption = 'Toggl Project Entries';
 
     layout
     {
