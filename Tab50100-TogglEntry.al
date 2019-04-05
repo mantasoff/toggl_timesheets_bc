@@ -15,12 +15,12 @@ table 50100 "1CF Toggl Entry"
             DataClassification = ToBeClassified;
             Caption = 'uid';
         }
-        field(12; "Client"; Code[20])
+        field(12; "ClientID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Client';
         }
-        field(13; "Project"; Code[20])
+        field(13; "ProjectID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Project';
@@ -44,6 +44,20 @@ table 50100 "1CF Toggl Entry"
         {
             DataClassification = ToBeClassified;
             Caption = 'End Date';
+        }
+        field(18; "Project Name"; text[100])
+        {
+
+            Caption = 'Project Name';
+            FieldClass = FlowField;
+            CalcFormula = lookup ("1CF Toggl Project".ProjectName where (ProjectID = field (ProjectID), UserID = field ("User ID")));
+        }
+        field(19; "Client Name"; text[100])
+        {
+
+            Caption = 'Client Name';
+            FieldClass = FlowField;
+            CalcFormula = lookup ("1CF Toggl Client".ClientName where (clientid = field (clientid), UserID = field ("User ID")));
         }
     }
 

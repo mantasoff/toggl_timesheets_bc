@@ -1,9 +1,9 @@
-page 50101 TogglProjectEntries
+page 50104 "1CF Toggl Client"
 {
     PageType = List;
     ApplicationArea = All;
-    UsageCategory = Lists;
-    SourceTable = "1CF Toggl Project";
+    UsageCategory = Administration;
+    SourceTable = "1CF Toggl Client";
 
     layout
     {
@@ -19,17 +19,33 @@ page 50101 TogglProjectEntries
                 field(ClientID; ClientID)
                 {
                     ApplicationArea = All;
+
                 }
                 field(ClientName; ClientName)
                 {
                     ApplicationArea = All;
-                }
-                field(ProjectName; ProjectName)
-                {
-                    ApplicationArea = All;
+
                 }
             }
         }
     }
 
+    actions
+    {
+        area(Processing)
+        {
+            action(ActionName)
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+
+                end;
+            }
+        }
+    }
+
+    var
+        myInt: Integer;
 }

@@ -20,11 +20,11 @@ page 50100 "1CF Toggl Entries"
                 {
                     ApplicationArea = All;
                 }
-                field(Client; Client)
+                field(Client; "Client Name")
                 {
                     ApplicationArea = All;
                 }
-                field(Project; Project)
+                field(Project; "Project Name")
                 {
                     ApplicationArea = All;
                 }
@@ -55,7 +55,7 @@ page 50100 "1CF Toggl Entries"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Update Entries")
             {
                 ApplicationArea = All;
 

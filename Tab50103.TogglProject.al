@@ -21,13 +21,13 @@ table 50103 "1CF Toggl Project"
         }
         field(20; ClientName; text[100])
         {
-            DataClassification = ToBeClassified;
-            //FieldClass = FlowField( )
+
+            FieldClass = FlowField;
+            CalcFormula = lookup ("1CF Toggl Client".ClientName where (clientid = field (clientid), userid = field (userid)));
 
         }
         field(25; ProjectName; text[100])
         {
-            DataClassification = ToBeClassified;
 
         }
     }

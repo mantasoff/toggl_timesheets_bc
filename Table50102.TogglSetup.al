@@ -17,12 +17,12 @@ table 50102 "1CF Toggl Setup"
         field(15; "Toggl Api Projects Link"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Time Entries Link';
+            Caption = 'Toggl Api Projects Link';
         }
         field(20; "Toggl Api Clients Link"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Time Entries Link';
+            Caption = 'Toggl Api Clients Link';
         }
     }
 
