@@ -8,7 +8,7 @@ codeunit 50101 "Delete Old Toggl Entries"
     procedure DeleteOldTogglEntries()
     var
         TogglSetup: Record "1CF Toggl Setup";
-        TogglEntries: Record "1CF Toggl Entries";
+        TogglEntries: Record "1CF Toggl Entry";
         PastDate: DateTime;
     begin
         TogglSetup.Get();

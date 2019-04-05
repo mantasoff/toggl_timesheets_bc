@@ -87,7 +87,7 @@ codeunit 50100 "1CF Toggle Management"
                     evaluate(togglentries."end Date", jsonbuffer.Value);
                 end;
                 jsonbuffer.SetFilter(Path, '[' + format(row) + '].tags[0]*');
-                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Date);
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::String);
                 if jsonbuffer.FindFirst() then begin
                     evaluate(togglentries.Tag, jsonbuffer.Value);
                 end;
