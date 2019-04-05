@@ -2,14 +2,27 @@ codeunit 50101 "1CF Toggle to Time Sheet"
 {
     trigger OnRun()
     var
-        LastSunday: Date;
+        CurrentSunday: Date;
+        TogglClient: Record "1CF Toggl Client";
+        TogglProject: Record "1CF Toggl Project";
+        Resource: Record Resource;
+        TogglEntries: Record "1CF Toggl Entry";
+        TimeSheetLine: Record "Time Sheet Line";
+        TimeSheetHeader: Record "Time Sheet Header";
+        TimeSheetLineDetail: Record "Time Sheet Detail";
+        StartDateTime: DateTime;
+        EndDateTime: DateTime;
+        CurrentWorkDate: Date;
+        LineNo: Integer;
+        SpentTime: Decimal;
+        SpentDuration: Decimal;
     begin
 
         CurrentWorkDate := WorkDate();
-        // LastSunday := CalcDate('<CW - 1W>', CurrentWorkDate);
-        LastSunday := CalcDate('<CW>', CurrentWorkDate);
+        // CurrentSunday := CalcDate('<CW - 1W>', CurrentWorkDate);
+        CurrentSunday := CalcDate('<CW>', CurrentWorkDate);
 
-        TimeSheetHeader.SetRange("Ending Date", LastSunday);
+        TimeSheetHeader.SetRange("Ending Date", CurrentSunday);
         // TimeSheetHeader.SetRange("Resource No.", TogglEntries.Person);
         if TimeSheetHeader.FindSet() then
             repeat
@@ -17,15 +30,23 @@ codeunit 50101 "1CF Toggle to Time Sheet"
                 StartDateTime := CreateDateTime(TimeSheetHeader."Starting Date", 0T);
                 EndDateTime := CreateDateTime(TimeSheetHeader."Ending Date", 235959T);
                 TogglEntries.SetRange("Start Date", StartDateTime, EndDateTime);
-                TogglEntries.SetRange(Person, TimeSheetHeader."Resource No.");
+                //UPGBC
+                //TogglEntries.SetRange(Person, TimeSheetHeader."Resource No.");
+                Resource.Get(TimeSheetHeader."Resource No.");
+                TogglEntries.SetRange("User ID", Resource."Time Sheet Owner User ID");
+                //UPGBC
                 if TogglEntries.FindSet() then
                     repeat
                         TimeSheetLine.Init();
                         TimeSheetLine.Validate("Time Sheet No.", TimeSheetHeader."No.");
                         TimeSheetLine."Line No." := LineNo;
                         TimeSheetLine.Validate(Type, TimeSheetLine.Type::Job);
-                        TimeSheetLine.Validate("Job No.", TogglEntries.Client);
-                        TimeSheetLine.Validate("Job Task No.", TogglEntries.Project);
+                        //UPGBC
+                        //TimeSheetLine.Validate("Job No.", TogglEntries.Client);
+                        //TimeSheetLine.Validate("Job Task No.", TogglEntries.Project);
+                        TimeSheetLine.Validate("Job No.", TogglEntries.ClientID);
+                        TimeSheetLine.Validate("Job Task No.", TogglEntries.ProjectID);
+                        //UPGBC                                                
                         TimeSheetLine.Validate(Description, TogglEntries.Description);
                         TimeSheetLine.Validate("Work Type Code", TogglEntries.Tag);
                         TimeSheetLineDetail.Init();
@@ -47,17 +68,4 @@ codeunit 50101 "1CF Toggle to Time Sheet"
                     until TogglEntries.Next() = 0;
             until TimeSheetHeader.Next() = 0;
     end;
-
-
-    var
-        TogglEntries: Record "1CF Toggl Entries";
-        TimeSheetLine: Record "Time Sheet Line";
-        TimeSheetHeader: Record "Time Sheet Header";
-        TimeSheetLineDetail: Record "Time Sheet Detail";
-        StartDateTime: DateTime;
-        EndDateTime: DateTime;
-        CurrentWorkDate: Date;
-        LineNo: Integer;
-        SpentTime: Decimal;
-        SpentDuration: Decimal;
 }

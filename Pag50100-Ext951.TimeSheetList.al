@@ -1,4 +1,4 @@
-pageextension 50100 "1CF Time Sheet List" extends "Time Sheet List"
+pageextension 50101 "1CF Time Sheet List" extends "Time Sheet List"
 {
     layout
     {
@@ -7,11 +7,12 @@ pageextension 50100 "1CF Time Sheet List" extends "Time Sheet List"
 
     actions
     {
-        addlast(Processing){
+        addlast(Processing)
+        {
             action("1CF Import Toggl Entries")
             {
                 ApplicationArea = All;
-                Caption = 'Import Toggl Entries'; 
+                Caption = 'Import Toggl Entries';
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedCategory = Process;
@@ -19,7 +20,7 @@ pageextension 50100 "1CF Time Sheet List" extends "Time Sheet List"
 
                 trigger OnAction()
                 var
-                TogglToTimeSheet: Codeunit "1CF Toggle to Time Sheet";
+                    TogglToTimeSheet: Codeunit "1CF Toggle to Time Sheet";
                 begin
                     TogglToTimeSheet.Run();
                 end;
