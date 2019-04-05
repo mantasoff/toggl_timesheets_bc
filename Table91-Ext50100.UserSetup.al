@@ -1,8 +1,8 @@
-tableextension 50100 UserSetupext extends "User Setup"
+tableextension 50100 "1CF User Setup" extends "User Setup"
 {
     fields
     {
-        field(50100; "Toggl Api Key"; Text[250])
+        field(50100; "1CF Toggl Api Key"; Text[100])
         {
             DataClassification = ToBeClassified;
             Caption = 'Toggl Api Key';
