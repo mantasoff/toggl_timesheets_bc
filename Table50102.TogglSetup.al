@@ -31,6 +31,11 @@ table 50102 "1CF Toggl Setup"
             Description = 'DateFormula, e. g. -30D';
 
         }
+        field(40; "Toggl Api Workspace Link"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Toggl Api Workspace Link';
+        }
     }
 
     keys

@@ -181,8 +181,19 @@ codeunit 50100 "1CF Toggle Management"
 
     procedure CreateTogglClient(Job: Record Job)
     var
-        myInt: Integer;
+        TempBlob: Record TempBlob temporary;
+        TogglSetup: Record "1CF Toggl Setup";
+        UserSetup: Record "User Setup";
+        Client: HttpClient;
+        Headers: HttpHeaders;
+        // RequestMessage: HttpRequestMessage;
+        ResponseMessage: HttpResponseMessage;
+        Content: HttpContent;
+        AuthText: text;
+        ResponseText: text;
     begin
-
+        TogglSetup.Get();
+        TogglSetup.TestField("Toggl Api Clients Link");
+        Client.Post(TogglSetup."Toggl Api Clients Link", Content, ResponseMessage);
     end;
 }

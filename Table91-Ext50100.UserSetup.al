@@ -7,6 +7,16 @@ tableextension 50101 "1CF User Setup" extends "User Setup"
             DataClassification = ToBeClassified;
             Caption = 'Toggl Api Key';
             ExtendedDatatype = Masked;
+            trigger OnValidate()
+            var
+            begin
+                // TODO
+            end;
+        }
+        field(50101; "1CF Workspace ID"; Integer)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Workspace ID';
         }
     }
 }
