@@ -25,7 +25,7 @@ codeunit 50100 "1CF Toggle Management"
 
         Client.Send(RequestMessage, ResponseMessage);
 
-        ResponseMessage.Content.ReadAs(responsetext);
+        ResponseMessage.Content().ReadAs(responsetext);
 
         exit(responsetext);
     end;
