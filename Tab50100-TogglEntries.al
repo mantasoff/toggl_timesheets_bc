@@ -12,7 +12,7 @@ table 50100 "1CF Toggl Entries"
         field(11; "Person"; Code[20])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Person';
+            Caption = 'Resource';
         }
         field(12; "Client"; Code[20])
         {
@@ -37,7 +37,7 @@ table 50100 "1CF Toggl Entries"
         field(16; "Start Date"; DateTime)
         {
             DataClassification = ToBeClassified;
-            Caption ='Start Date';
+            Caption = 'Start Date';
         }
         field(17; "End Date"; DateTime)
         {
