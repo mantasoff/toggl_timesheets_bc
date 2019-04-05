@@ -9,7 +9,4 @@ tableextension 50100 "1CF User Setup" extends "User Setup"
             ExtendedDatatype = Masked;
         }
     }
-
-    var
-        myInt: Integer;
 }
