@@ -295,4 +295,26 @@ codeunit 50100 "1CF Toggle Management"
                 end;
             until JobTask.Next() = 0;
     end;
+
+    procedure GetWorkspaceID(apiKey: Text[250]): Text
+    var
+        myInt: Integer;
+        jsonObject: JsonObject;
+        userSetup: Record "User Setup";
+        jsonText: Text;
+        toggleSetup: Record "1CF Toggl Setup";
+        url: text;
+        jsonArray: JsonArray;
+        jsonToken: JsonToken;
+        idResult: Text;
+    begin
+        url := 'https://www.toggl.com/api/v8/workspaces';
+        jsonText := GetInfoFromToggle(url, apiKey, 'api_token');
+        jsonArray.ReadFrom(jsonText);
+        jsonArray.Get(0, jsonToken);
+        jsonObject := jsonToken.AsObject();
+        jsonObject.Get('id', jsonToken);
+        jsonToken.WriteTo(idResult);
+        exit(idResult);
+    end;
 }

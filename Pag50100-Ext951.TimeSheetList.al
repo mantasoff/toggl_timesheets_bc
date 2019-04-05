@@ -1,10 +1,5 @@
 pageextension 50101 "1CF Time Sheet List" extends "Time Sheet List"
 {
-    layout
-    {
-        // Add changes to page layout here
-    }
-
     actions
     {
         addlast(Processing)
@@ -43,7 +38,4 @@ pageextension 50101 "1CF Time Sheet List" extends "Time Sheet List"
             }
         }
     }
-
-    var
-        myInt: Integer;
 }

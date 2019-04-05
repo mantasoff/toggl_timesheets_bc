@@ -4,6 +4,7 @@ page 50104 "1CF Toggl Client"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "1CF Toggl Client";
+    Caption = 'Toggl Clients';
 
     layout
     {

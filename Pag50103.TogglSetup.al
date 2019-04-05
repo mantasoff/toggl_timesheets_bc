@@ -4,7 +4,9 @@ page 50102 TogglSetup
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "1CF Toggl Setup";
-
+    Caption = 'Toggl Setup';
+    InsertAllowed = false;
+    DeleteAllowed = false;
     layout
     {
         area(Content)

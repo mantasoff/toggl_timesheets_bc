@@ -37,7 +37,6 @@ table 50102 "1CF Toggl Setup"
             Caption = 'Toggl Api Workspace Link';
         }
     }
-
     keys
     {
         key(PK; PrimaryKey)
@@ -45,25 +44,4 @@ table 50102 "1CF Toggl Setup"
             Clustered = true;
         }
     }
-
-    trigger OnInsert()
-    begin
-
-    end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }

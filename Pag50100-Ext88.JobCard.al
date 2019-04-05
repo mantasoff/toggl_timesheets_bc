@@ -1,10 +1,5 @@
 pageextension 50100 "1CF Job Card" extends "Job Card"
 {
-    layout
-    {
-        // Add changes to page layout here
-    }
-
     actions
     {
         addfirst("&Job")
