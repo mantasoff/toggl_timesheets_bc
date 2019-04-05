@@ -9,10 +9,20 @@ table 50102 "1CF Toggl Setup"
             DataClassification = ToBeClassified;
             Caption = 'Toggl Setup';
         }
-        field(10; "Toggl Api Link"; Text[100])
+        field(10; "Toggl Api Time Entries Link"; Text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Link';
+            Caption = 'Toggl Api Time Entries Link';
+        }
+        field(15; "Toggl Api Projects Link"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Toggl Api Projects Link';
+        }
+        field(20; "Toggl Api Clients Link"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Toggl Api Clients Link';
         }
         field(20; "Days to keep Toggl Entry"; DateFormula)
         {
