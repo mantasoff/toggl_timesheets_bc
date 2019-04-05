@@ -5,7 +5,7 @@ codeunit 50100 "1CF Toggle Management"
 
     end;
 
-    procedure 1CFGetInfoFromToggle()
+    procedure "1CFGetInfoFromToggle"()
     var
         myInt: Integer;
     begin
