@@ -21,7 +21,6 @@ codeunit 50100 "1CF Toggle Management"
         RequestMessage.SetRequestUri(ToggSetup."Toggl Api Link");
 
         RequestMessage.GetHeaders(Headers);
-
         AuthText := StrSubstNo('%1:%2', togglID, togglPassword);
         TempBlob.WriteAsText(AuthText, TextEncoding::Windows);
         Headers.Add('Authorization', StrSubstNo('Basic %1', TempBlob.ToBase64String()));
@@ -51,5 +50,12 @@ codeunit 50100 "1CF Toggle Management"
                 togglentries.Insert();
             until jsonbuffer.Next() = 0;
         end;
+    end;
+
+    procedure CreateTogglClient(Job: Record Job)
+    var
+        myInt: Integer;
+    begin
+
     end;
 }
