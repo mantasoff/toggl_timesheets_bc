@@ -1,25 +1,26 @@
-table 50100 "1CF Toggl Entries"
+table 50100 "1CF Toggl Entry"
 {
     DataClassification = ToBeClassified;
     Caption = '1CF Toggl Entries';
+
     fields
     {
-        field(1; "Entry No."; Integer)
+        field(1; "User ID"; Code[50])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Entry No.';
+            Caption = 'Person';
         }
-        field(11; "Person"; Code[20])
+        field(5; "Entry No."; Integer)
         {
             DataClassification = ToBeClassified;
-            Caption = 'Resource';
+            Caption = 'uid';
         }
-        field(12; "Client"; Code[20])
+        field(12; "ClientID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Client';
         }
-        field(13; "Project"; Code[20])
+        field(13; "ProjectID"; Code[20])
         {
             DataClassification = ToBeClassified;
             Caption = 'Project';
@@ -44,11 +45,25 @@ table 50100 "1CF Toggl Entries"
             DataClassification = ToBeClassified;
             Caption = 'End Date';
         }
+        field(18; "Project Name"; text[100])
+        {
+
+            Caption = 'Project Name';
+            FieldClass = FlowField;
+            CalcFormula = lookup ("1CF Toggl Project".ProjectName where (ProjectID = field (ProjectID), UserID = field ("User ID")));
+        }
+        field(19; "Client Name"; text[100])
+        {
+
+            Caption = 'Client Name';
+            FieldClass = FlowField;
+            CalcFormula = lookup ("1CF Toggl Client".ClientName where (clientid = field (clientid), UserID = field ("User ID")));
+        }
     }
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "User ID", "Entry No.")
         {
             Clustered = true;
         }

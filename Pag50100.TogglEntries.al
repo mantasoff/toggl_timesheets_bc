@@ -3,7 +3,7 @@ page 50100 "1CF Toggl Entries"
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
-    SourceTable = "1CF Toggl Entries";
+    SourceTable = "1CF Toggl Entry";
     Caption = '1CF Toggl Entries';
 
     layout
@@ -16,15 +16,15 @@ page 50100 "1CF Toggl Entries"
                 {
                     ApplicationArea = All;
                 }
-                field(Person; Person)
+                field(Person; "User ID")
                 {
                     ApplicationArea = All;
                 }
-                field(Client; Client)
+                field(Client; "Client Name")
                 {
                     ApplicationArea = All;
                 }
-                field(Project; Project)
+                field(Project; "Project Name")
                 {
                     ApplicationArea = All;
                 }
@@ -32,15 +32,15 @@ page 50100 "1CF Toggl Entries"
                 {
                     ApplicationArea = All;
                 }
-                field(Tag;Tag)
+                field(Tag; Tag)
                 {
                     ApplicationArea = All;
                 }
-                field("Start Date";"Start Date")
+                field("Start Date"; "Start Date")
                 {
                     ApplicationArea = All;
                 }
-                field("End Date";"End Date")
+                field("End Date"; "End Date")
                 {
                     ApplicationArea = All;
                 }
@@ -49,6 +49,23 @@ page 50100 "1CF Toggl Entries"
         area(Factboxes)
         {
 
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Update Entries")
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    TogglManagement: Codeunit "1CF Toggle Management";
+                begin
+                    TogglManagement.FillTogglEntries();
+                end;
+            }
         }
     }
 }

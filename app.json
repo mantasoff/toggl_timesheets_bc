@@ -19,5 +19,7 @@
     "from": 50100,
     "to": 50149
   },
-  "runtime": "3.0"
+  "runtime": "3.0",
+  "target": "Internal",
+  "showMyCode": true
 }
