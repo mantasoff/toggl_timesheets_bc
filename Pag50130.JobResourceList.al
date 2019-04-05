@@ -4,7 +4,7 @@ page 50130 "1CF Job Resource List"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Job Resource";
-
+    Caption = 'Job Resource List';
     layout
     {
         area(Content)
