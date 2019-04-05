@@ -1,4 +1,4 @@
-codeunit 50100 "1CF Togg Management"
+codeunit 50100 "1CF Toggle Management"
 {
     trigger OnRun()
     begin
