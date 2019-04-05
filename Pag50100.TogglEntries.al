@@ -32,15 +32,15 @@ page 50100 "1CF Toggl Entries"
                 {
                     ApplicationArea = All;
                 }
-                field(Tag;Tag)
+                field(Tag; Tag)
                 {
                     ApplicationArea = All;
                 }
-                field("Start Date";"Start Date")
+                field("Start Date"; "Start Date")
                 {
                     ApplicationArea = All;
                 }
-                field("End Date";"End Date")
+                field("End Date"; "End Date")
                 {
                     ApplicationArea = All;
                 }
@@ -51,4 +51,5 @@ page 50100 "1CF Toggl Entries"
 
         }
     }
+
 }
