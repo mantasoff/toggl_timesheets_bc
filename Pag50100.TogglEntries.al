@@ -51,20 +51,4 @@ page 50100 "1CF Toggl Entries"
 
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                ApplicationArea = All;
-
-                trigger OnAction();
-                begin
-
-                end;
-            }
-        }
-    }
 }
