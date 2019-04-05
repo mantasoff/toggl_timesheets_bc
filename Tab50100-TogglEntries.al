@@ -34,6 +34,16 @@ table 50100 "1CF Toggl Entries"
             DataClassification = ToBeClassified;
             Caption = 'Description';
         }
+        field(16; "Start Date"; DateTime)
+        {
+            DataClassification = ToBeClassified;
+            Caption ='Start Date';
+        }
+        field(17; "End Date"; DateTime)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'End Date';
+        }
     }
 
     keys
@@ -43,27 +53,4 @@ table 50100 "1CF Toggl Entries"
             Clustered = true;
         }
     }
-
-    var
-
-    trigger OnInsert()
-    begin
-
-    end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }
