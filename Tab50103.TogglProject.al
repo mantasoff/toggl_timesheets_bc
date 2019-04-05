@@ -1,38 +1,47 @@
-table 50102 "1CF Toggl Setup"
+table 50103 "1CF Toggl Project"
 {
     DataClassification = ToBeClassified;
-    Caption = 'Toggl Setup';
+
     fields
     {
-        field(1; PrimaryKey; Code[10])
+        field(1; UserID; Code[50])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Setup';
+
         }
-        field(10; "Toggl Api Time Entries Link"; Text[100])
+        field(5; ClientID; text[50])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Time Entries Link';
+
         }
-        field(15; "Toggl Api Projects Link"; Text[100])
+        field(10; ProjectID; text[50])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Time Entries Link';
+
         }
-        field(20; "Toggl Api Clients Link"; Text[100])
+        field(20; ClientName; text[100])
         {
             DataClassification = ToBeClassified;
-            Caption = 'Toggl Api Time Entries Link';
+            //FieldClass = FlowField( )
+
+        }
+        field(25; ProjectName; text[100])
+        {
+            DataClassification = ToBeClassified;
+
         }
     }
 
     keys
     {
-        key(PK; PrimaryKey)
+        key(PK; UserID, ClientID, ProjectID)
         {
             Clustered = true;
         }
     }
+
+    var
+        myInt: Integer;
 
     trigger OnInsert()
     begin

@@ -30,27 +30,44 @@ codeunit 50100 "1CF Toggle Management"
         exit(responsetext);
     end;
 
-    procedure FillTogglEntries(JsonText: Text)
+    procedure FillTogglEntries()
     var
-        togglentries: record "1CF Toggl Entries";
+        togglentries: record "1CF Toggl Entry";
+        togglesetup: Record "1CF Toggl Setup";
+        togglprojects: Record "1CF Toggl Project";
+        usersetup: Record "User Setup";
         jsonbuffer: Record "JSON Buffer" temporary;
         jsontextreader: Codeunit "Json Text Reader/Writer";
         row: Integer;
+        JsonText: Text;
     begin
+        RenewUserClients;
+
+        togglesetup.Get();
+        usersetup.get(UserId);
+        JsonText := GetInfoFromToggle(togglesetup."Toggl Api Time Entries Link", usersetup."1CF Toggl Api Key", 'api_token');
         jsontextreader.ReadJSonToJSonBuffer(JsonText, jsonbuffer);
-        togglentries.DeleteAll();
         row := 0;
         jsonbuffer.SetFilter(Path, '*[' + format(row) + ']*');
         if jsonbuffer.FindSet() then begin
             togglentries."User ID" := UserId;
             repeat
-                togglentries."Entry No." := 0;
                 togglentries.Init();
-
+                jsonbuffer.SetFilter(Path, '*[' + format(row) + '].uid*');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Integer);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(togglentries."Entry No.", jsonbuffer.Value);
+                end;
                 jsonbuffer.SetFilter(Path, '*[' + format(row) + '].wid*');
                 jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Integer);
                 if jsonbuffer.FindFirst() then begin
                     togglentries.Project := jsonbuffer.Value;
+
+                    togglprojects.SetRange(UserID, UserId);
+                    togglprojects.SetRange(ProjectID, togglentries.Project);
+                    if not togglprojects.FindFirst() then begin
+                        FillProject(togglentries.Project);
+                    end;
                 end;
                 jsonbuffer.SetFilter(Path, '[' + format(row) + '].description*');
                 jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::String);
@@ -72,11 +89,84 @@ codeunit 50100 "1CF Toggle Management"
                 if jsonbuffer.FindFirst() then begin
                     evaluate(togglentries."end Date", jsonbuffer.Value);
                 end;
-                togglentries.Insert();
+                if not togglentries.get(UserId, togglentries."Entry No.") then begin
+                    togglentries.Insert();
+                end;
                 row += 1;
                 jsonbuffer.reset;
                 jsonbuffer.SetFilter(Path, '*[' + format(row) + ']*');
             until jsonbuffer.FindSet() = false;
+        end;
+    end;
+
+    procedure FillProject(ProjectID: Text)
+    var
+        togglesetup: Record "1CF Toggl Setup";
+        usersetup: Record "User Setup";
+        jsonbuffer: Record "JSON Buffer" temporary;
+        toggproject: Record "1CF Toggl Project";
+        jsontextreader: Codeunit "Json Text Reader/Writer";
+        JsonText: Text;
+    begin
+        togglesetup.Get();
+        usersetup.get(UserId);
+        JsonText := GetInfoFromToggle(togglesetup."Toggl Api Time Entries Link" + '/' + ProjectID, usersetup."1CF Toggl Api Key", 'api_token');
+        jsontextreader.ReadJSonToJSonBuffer(JsonText, jsonbuffer);
+        if jsonbuffer.FindSet() then begin
+            repeat
+                toggproject.init;
+                toggproject.UserID := UserId;
+                jsonbuffer.SetFilter(Path, 'data.wid');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Integer);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(toggproject.ProjectID, jsonbuffer.Value);
+                end;
+                jsonbuffer.SetFilter(Path, 'data.cid');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Integer);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(toggproject.ClientID, jsonbuffer.Value);
+                end;
+                jsonbuffer.SetFilter(Path, 'data.name');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::String);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(toggproject.ProjectName, jsonbuffer.Value);
+                end;
+                toggproject.Insert();
+            until jsonbuffer.next = 0;
+        end;
+    end;
+
+    procedure RenewUserClients()
+    var
+        togglesetup: Record "1CF Toggl Setup";
+        usersetup: Record "User Setup";
+        jsonbuffer: Record "JSON Buffer" temporary;
+        toggclient: Record "1CF Toggl Client";
+        jsontextreader: Codeunit "Json Text Reader/Writer";
+        JsonText: Text;
+    begin
+        togglesetup.Get();
+        usersetup.get(UserId);
+        JsonText := GetInfoFromToggle(togglesetup."Toggl Api Clients Link", usersetup."1CF Toggl Api Key", 'api_token');
+        jsontextreader.ReadJSonToJSonBuffer(JsonText, jsonbuffer);
+        if jsonbuffer.FindSet() then begin
+            repeat
+                toggclient.init;
+                toggclient.UserID := UserId;
+                jsonbuffer.SetFilter(Path, 'data.id');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::Integer);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(toggclient.clientid, jsonbuffer.Value);
+                end;
+                jsonbuffer.SetFilter(Path, 'data.name');
+                jsonbuffer.SetRange("Token type", jsonbuffer."Token type"::String);
+                if jsonbuffer.FindFirst() then begin
+                    evaluate(toggclient.ClientName, jsonbuffer.Value);
+                end;
+                if not toggclient.get(UserId, toggclient.ClientID) then begin
+                    toggclient.Insert();
+                end;
+            until jsonbuffer.next = 0;
         end;
     end;
 }
