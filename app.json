@@ -20,7 +20,7 @@
     "to": 50149
   },
   "runtime": "2.4",
-  "target": "Internal",
-  "showMyCode": true,
+  "target": "Extension",
+  "showMyCode": true
   
 }
