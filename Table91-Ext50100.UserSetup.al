@@ -1,4 +1,4 @@
-tableextension 50100 "1CF User Setup" extends "User Setup"
+tableextension 50101 "1CF User Setup" extends "User Setup"
 {
     fields
     {
