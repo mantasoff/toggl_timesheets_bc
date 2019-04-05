@@ -19,8 +19,8 @@ codeunit 50101 "1CF Toggle to Time Sheet"
     begin
 
         CurrentWorkDate := WorkDate();
-        // CurrentSunday := CalcDate('<CW - 1W>', CurrentWorkDate);
-        CurrentSunday := CalcDate('<CW>', CurrentWorkDate);
+        CurrentSunday := CalcDate('<CW - 1W>', CurrentWorkDate);
+        //CurrentSunday := CalcDate('<CW>', CurrentWorkDate);
 
         TimeSheetHeader.SetRange("Ending Date", CurrentSunday);
         // TimeSheetHeader.SetRange("Resource No.", TogglEntries.Person);
@@ -44,8 +44,9 @@ codeunit 50101 "1CF Toggle to Time Sheet"
                         //UPGBC
                         //TimeSheetLine.Validate("Job No.", TogglEntries.Client);
                         //TimeSheetLine.Validate("Job Task No.", TogglEntries.Project);
-                        TimeSheetLine.Validate("Job No.", TogglEntries.ClientID);
-                        TimeSheetLine.Validate("Job Task No.", TogglEntries.ProjectID);
+                        TogglEntries.CalcFields("Client Name", "Project Name");
+                        TimeSheetLine.Validate("Job No.", TogglEntries."Client Name");
+                        TimeSheetLine.Validate("Job Task No.", TogglEntries."Project Name");
                         //UPGBC                                                
                         TimeSheetLine.Validate(Description, TogglEntries.Description);
                         TimeSheetLine.Validate("Work Type Code", TogglEntries.Tag);
