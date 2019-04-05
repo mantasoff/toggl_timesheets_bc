@@ -5,13 +5,13 @@ table 50100 "1CF Toggl Entries"
 
     fields
     {
-        field(1; "Entry No."; Integer)
+        field(5; "Entry No."; Integer)
         {
             DataClassification = ToBeClassified;
             Caption = 'Entry No.';
             AutoIncrement = true;
         }
-        field(11; "Person"; Code[20])
+        field(1; "User ID"; Code[50])
         {
             DataClassification = ToBeClassified;
             Caption = 'Person';
@@ -50,7 +50,7 @@ table 50100 "1CF Toggl Entries"
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "User ID", "Entry No.")
         {
             Clustered = true;
         }
