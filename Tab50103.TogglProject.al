@@ -1,4 +1,4 @@
-table 50103 "1CF Toggl Project"
+table 50105 "1CF Toggl Project"
 {
     DataClassification = ToBeClassified;
 
