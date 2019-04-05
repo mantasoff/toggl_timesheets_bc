@@ -20,7 +20,16 @@ page 50100 "1CF Toggl Entries"
                 {
                     ApplicationArea = All;
                 }
+                field(ClientID; ClientID)
+                {
+                    ApplicationArea = All;
+                }
+
                 field(Client; "Client Name")
+                {
+                    ApplicationArea = All;
+                }
+                field(ProjectID; ProjectID)
                 {
                     ApplicationArea = All;
                 }

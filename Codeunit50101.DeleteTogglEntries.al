@@ -1,4 +1,4 @@
-codeunit 50101 "Delete Old Toggl Entries"
+codeunit 50102 "Delete Old Toggl Entries"
 {
     trigger OnRun()
     begin
